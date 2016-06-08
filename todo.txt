@@ -1,0 +1,36 @@
+//TODO:
+1. otrimovat vsetky stringy, hlavne priezviska a mena v databaze aby sa tam nevyskytovali taketo veci: ' Seman'
+
+2. metoda hladajKontaktyPodlaPriezviska nech hlada kontakty podla nasledovneho pravidla:
+    - na zaciatku listu su priezviska zacinajuce hladanym vyrazom case insensitive, diakritika insensitive
+    - na konci listu nech su priezviska ktore nezacinaju, ale obsahuju v sebe hladany vyraz
+    - vsetky stringy co sa vracaju nech su v takom stave v akom su ulozene v databaze, len to porovnavanie s klucovym slovom aby sa dialo bez diakritiky a v lowercase
+   metoda nech berie do uvahy iba aktualne priezviska a nech neberie do uvahy krstne mena a povodne priezviska!!
+   metoda nech vracia iba zoznam stringov a nie zoznam SkratenyKontakt
+   - zoznam stringov nech je usporiadany podla kumulovaneho poctu zobrazeni ludi s rovnakym priezviskom,
+   napriklad ak je priezivsko 'Semanišin' vyhovujuce, tak potom treba pospocitat kolko maju dohromady vsetci ludia s takym priezviskom
+   pocet zobrazeni a podla tohto kumulovaneho poctu usporiadat zostupne vrateny zoznam stringov, priezvisko 'Semanišin' a 'Semanišinová' sú dve rôzne priezviská a každému treba osobitne napočítať počet zobrazení
+
+3. metoda List<SkratenyKontakt>	hladajKontaktyPodlaMena(String text) nech funguje podobne ako metoda s priezviskami
+    nech vracia iba zoznam stringov, ktory obsahuje krstne mena,
+    tieto dve metody budem pouzivat len na nasepkavac a by som ich premenoval na dajPriezviska a dajMena
+
+4. pridat dve metody, ktore podla priezviska alebo krstneho mena vracaju zoznam relevantnych kontaktov. nech su to 2 metody
+    jedna na priezvisko a druha na krstne meno, porovnavanie nech je rovnake ako pri priezviskach (case a diakritika insensitive a nebrat do uvahy povodne priezvisko)
+    nech tieto metody vracaju List<Kontakt>, triedu SkratenyKontakt s najvecsou pravdepodobnostou nebudem nikde vyuzivat
+    - Kontakt nech obsahuje aj udaj z noveho stlpca o pocte zobrazeni daneho kontaktu
+    - zoznam nech je usporiadany, napriklad pri dopyte do databazy dat ORDER BY pocet_zobrazeni, char_length(tituly) DESC a potom uz len zaradom prechadzat tento zoznam aby sa zachovalo poradie a nahadzat do return listu vyhovujuce kontakty
+
+5. pridat metodu na zvysenie poctu zobrazeni kontaktu, ktorej parametrom je jeho idcko a navratovou hodnotou pocet zobrazeni
+    pocet zobrazeni nech sa nezvysuje v metodach kde sa hladaju kontakty podla mena alebo priezviska
+    ak tuto funkcionalitu vykonava metoda dajKontakt tak potom mi to bude stacit
+
+6. pridat do tabulky kontaktov stlpec v ktorom sa bude pocitat kolkokrat bol dany kontakt zobrazeny, pretoze v aplikacii budem mat
+    moznost zobrazit si kontakt. pri tejto akcii sa bude vyuzivat metoda na zvysenie poctu zobrazeni
+
+7. pridat metodu ktora mi vrati poslednych 10 hladanych kontaktov, teda logovat niekde do tabulky kazde volanie metody dajKontakt
+
+8. pridat metodu ktora vrati 10 najvyhladavanejsich kontaktov podla poctu zobrazeni, historiu hladania nejakeho usera budem riesit ja cez vlastnu databazu cookies na mojom node.js serveri
+
+pripajat sa na rest server nebude javascript u clienta, ale client si otvori socket na moj node.js server a vsetko bude ist cez moj server a ten si uz bude dopytovat data od teba
+

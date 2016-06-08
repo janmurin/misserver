@@ -1,0 +1,33 @@
+.hide {
+	display:none;
+}
+.product-container {
+	margin: 5px;
+	width:200px;
+	padding: 5px;
+}
+.left {
+	float:left
+}
+
+.border {
+	border: 2px solid;
+}
+
+.basket-container,.orders-container {
+	margin: 5px;
+	min-height: 100px;
+	width : 200px;
+}
+
+h2{
+text-align : center;
+}
+
+.product-buttons{
+	margin:5px;
+}
+
+.new-product-container{
+	background-color:#ececec
+}

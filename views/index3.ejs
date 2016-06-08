@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Unitel</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/main3.js"></script>
+</head>
+<style>
+    a {
+        color: black;
+        font-weight: bold;
+    }
+
+    a:hover {
+        cursor: pointer;
+    }
+
+    body {
+        padding-top: 40px;
+    }
+
+    .zoznamTable td {
+        background-color: #81BD74;
+    }
+
+    span {
+        margin-right: 10px;
+    }
+
+    .logo {
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 3%;
+        height: 22%;
+        width: 22%
+    }
+
+    @media (max-width: 767px) {
+
+        .img-responsive {
+            height: auto;
+            width: 100px;
+        }
+    }
+
+</style>
+
+<body>
+<!-- navbar-->
+<nav class="navbar navbar-inverse navbar-fixed-top" id="my-navbar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="" class="navbar-brand">UniTel</a>
+        </div><!-- end of navbar-header-->
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#TOP10">Najhľadanejšie</a>
+                <li><a href="#History">História</a>
+            </ul>
+        </div>
+    </div><!-- end of container -->
+</nav><!-- end of navbar-->
+<!-- jumbotron- ->
+<div class="jumbotron">
+    <div class="container text-center">
+        <p>
+            Vitajte na stránke univerzitného zoznamu kontaktov.</p>
+
+
+    </div> <!-- end container - ->
+</div><!-- end jumbotron-->
+
+<section>
+    <div class="well" style="margin-top: -30px">
+        <div class="container text-center">
+
+            <div class="row" style="margin-top: 60px">
+                <div class="col-xs-12">
+                    <img src="Drawing.png" class="img-responsive logo">
+                </div>
+            </div><!-- end of row-->
+            <div class="row">
+                <div class="form-group">
+
+
+                </div>
+                <div style="max-width: 400px; margin:auto;">
+                    <div class="form-group" id="searchFormGroup">
+                        <input type="text" class="form-control" id="hladanePriezviskoInputText"
+                               placeholder="Zadajte priezvisko"
+                               list="priezviska" style="margin-top:20px" maxlength="30" value="">
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        <span id="inputError2Status" class="sr-only">(error)</span>
+                        <datalist id="priezviska">
+                        </datalist>
+                        <button type="button" class="btn btn-default" id="hladatButton"
+                                style="margin-left: 15px;margin-top: 10px">Hľadaj osobu
+                        </button>
+                    </div>
+                    <hr>
+                </div>
+            </div><!-- end of row-->
+
+            <div class="table-responsive" style="display:none" id="tableContainer">
+                <table class="table table-bordered table-striped table-hover table-responsive zoznamTable" id="zoznamTable">
+                    <thead>
+                    <tr>
+                        <th>Meno</th>
+                        <th>Pracovisko</th>
+                        <th>Email</th>
+                        <th>Telefón</th>
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>cislo</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div><!-- end of container -->
+    </div><!--end of well -->
+</section>
+
+<!-- info-zamestnanec -->
+<div class="container">
+    <section id="kontaktDetail" style="display:none">
+        <div class="page-header">
+            <h3 id="zamestnanecHeader">Zamestnanec info</h3>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-2">
+                <img src="avatar.png" class="img-responsive" alt="foto">
+            </div>
+            <div class="col-xs-10">
+                <p id="idID" style="display:none"><span class="label label-success" style="margin-right: 10px;">ID</span>1.</p>
+
+                <p id="idUniverzita"><span class="label label-success" style="margin-right: 10px;">Univerzita</span>1
+                </p>
+
+                <p id="idFakulta"><span class="label label-success" style="margin-right: 10px;">Fakulta</span>Prirodovedecka
+                </p>
+
+                <p id="idPracovisko"><span class="label label-success" style="margin-right: 10px;">Pracovisko</span>UINF
+                </p>
+
+                <p id="idMeno"><span class="label label-success" style="margin-right: 10px;">Meno</span>Matus</p>
+
+                <p id="idPriezvisko"><span class="label label-success" style="margin-right: 10px;">Priezvisko</span>Stedl
+                </p>
+
+                <p id="idEmail"><span class="label label-success" style="margin-right: 10px;">E-mail</span>matuss.moje@gmail.com
+                </p>
+
+                <p id="idTelefon"><span class="label label-success" style="margin-right: 10px;">Telefon</span>0915123456
+                </p>
+
+                <p id="idOsobna"><span class="label label-success"
+                                       style="margin-right: 10px;">Osobná reprezentácia</span></p>
+            </div>
+
+        </div><!-- end of row -->
+
+    </section>
+</div><!-- end of container -->
+
+<!-- info-univerzita -->
+<div class="container" style="display:none" id="univerzitaInfo">
+    <div class="page-header">
+        <h3>Univerzita Pavla Jozefa Šafárika v Košiciach</h3>
+    </div>
+    <div class="row">
+        <div class="col-xs-2">
+            <img src="logo_UPJS_mobil.png" class="img-responsive" alt="logo univerzity">
+        </div>
+        <div class="col-xs-10">
+            <p><a onclick="univerzitaClicked(1)" href="#univerzitaInfo">Univerzita Pavla Jozefa Šafárika v Košiciach</a><br>Šrobárova
+                2, 041 80 Košice<br>Slovenská republika</p>
+            <table>
+                <tbody>
+                <tr>
+                    <td style="vertical-align: top;">Telefón:</td>
+                    <td>+421(0)55 /&nbsp;234 1100<br>+421(0)55 / 62&nbsp;226 08</td>
+                </tr>
+                <tr>
+                    <td valign="top">Fax:</td>
+                    <td>+421(0)55 / 678 69 59<br>+421(0)55 / 622 81 09</td>
+                </tr>
+                <tr>
+                    <td valign="top">e-mail:</td>
+                    <td><a href="mailto:rektor@upjs.sk">rektor@upjs.sk</a></td>
+                </tr>
+                <tr>
+                    <td valign="top" colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td valign="top" colspan="2">Mgr. Mária Hrehová, PhD.<br>Tlačový referent a hovorca<br>e-mail: <a
+                                href="mailto:maria.hrehova@upjs.sk">maria.hrehova@upjs.sk</a><br>Tel.: +421 55 234
+                        1112<br>Mob.: 0905 385 911<br>&nbsp;</td>
+                </tr>
+                </tbody>
+            </table>
+            <p><span style="font-size:10px;"><a href="mailto:webmaster@upjs.sk">webmaster@upjs.sk</a></span></p>
+            <br>
+            <br>
+
+            <h3>Fakulty</h3>
+            <br>
+            <br>
+
+            <div class="list-group" id="zoznamFakult">
+                <a href="#" class="list-group-item">First item</a>
+            </div>
+            <div>
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe
+                                id="fakultaFrame"
+                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAXVBlkoqH_sDXljxh3dFcWW3it6k3lbPA&q=rektorat+upjs"
+                                class="embed-responsive-item"
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- end of row-->
+</div> <!-- end of container-->
+
+<!-- info pracovisko -->
+<div class="container" style="display:none" id="pracoviskoInfo">
+    <section>
+        <div class="page-header">
+            <h3 id="pracoviskoHeader">Pracovisko info</h3>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-2">
+                <img src="ramcek.png" class="img-responsive" alt="fakulta logo" id="pracoviskoImg">
+            </div>
+            <div class="col-xs-10">
+                <p id="pracoviskoID" style="display:none"><span class="label label-success" style="margin-right: 10px;">ID</span>1.</p>
+
+                <p id="pracoviskoUniverzita"><span
+                            class="label label-success " style="margin-right: 10px;">Univerzita</span>1</p>
+
+                <p id="pracoviskoFakulta"><span class="label label-success" style="margin-right: 10px;">Fakulta</span>Prirodovedecka
+                </p>
+
+                <p id="pracoviskoNazov"><span class="label label-success" style="margin-right: 10px;">Nazov</span>UINF
+                </p>
+
+                <p id="pracoviskoAdresa"><span class="label label-success" style="margin-right: 10px;">Adresa</span>niekde
+                </p>
+            </div>
+            <div class="row" >
+                <div class="gpsPracoviska">
+                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                        <div class="embed-responsive embed-responsive-16by9" style="margin-top: 20px;">
+                            <iframe
+                                    id="pracoviskoFrame"
+                                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAXVBlkoqH_sDXljxh3dFcWW3it6k3lbPA&q=prirodovedecka+upjs"
+                                    class="embed-responsive-item"
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+
+                </div>
+            </div><!-- end of row -->
+            <div class="row">
+            </div>
+
+        </div><!-- end of row -->
+
+    </section>
+</div><!-- end of container -->
+
+<!-- info fakulta -->
+<div class="container" style="display:none" id="fakultaInfo">
+    <section>
+        <div class="page-header">
+            <h3 id="fakultaInfoTitle">Fakulta info</h3>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-2">
+                <img src="ramcek.png" class="img-responsive" alt="google maps" id="fakultaImg">
+            </div>
+            <div class="col-xs-10">
+                <div class="infoFak" id="fakultaHtmlInfo">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="gpsFakult col-xs-12">
+                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe
+                                    id="fakultaFrame"
+                                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAXVBlkoqH_sDXljxh3dFcWW3it6k3lbPA&q=prirodovedecka+upjs"
+                                    class="embed-responsive-item"
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end of row -->
+            <div class="row">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-10">
+                    <div class="pracoviska" class="col-xs-10" style="clear:both;">
+                        <p style="font-size: 15pt">Zoznam pracovísk</p>
+
+                        <div class="list-group" id="zoznamPracovisk">
+                            <a href="#" class="list-group-item">First item</a>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end of row -->
+        </div><!-- end of row -->
+    </section>
+</div><!-- end of container -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6">
+            <section>
+                <div class="page-header" id="TOP10">
+                    <h2>Top</h2>
+
+                    <div class="list-group" id="topHladane">
+
+                    </div> <!-- end of list-group -->
+
+                </div>
+            </section>
+        </div>
+        <div class="col-xs-6">
+            <section>
+                <div class="page-header" id="History">
+                    <h2>História</h2>
+
+                    <div class="list-group" id="poslednaHistoria">
+
+                    </div> <!-- end of list-group -->
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div><!--end of container history -->
+<p id="cookie" style="display:none"><%= user.username %></p>
+
+</body>
+</html>

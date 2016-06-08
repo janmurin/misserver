@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/main2.js"></script>
+</head>
+
+<style>
+
+    h3 {
+        text-align: center;
+        font-family: Arial;
+        font-weight: bold;
+    }
+
+    .tabulkyTop {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10%;
+        width: 75%;
+    }
+
+    .tabulkyHistory {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10%;
+        width: 75%;
+    }
+
+    .tableContainer {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 8%;
+        width: 75%;
+
+    }
+
+    table tr:nth-child(odd) td {
+        background-color: #94D89E;
+    }
+
+    table tr:nth-child(even) td {
+        background-color: #4E9258;
+    }
+
+    .form-group {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 13%;
+        width: 20%;
+
+    }
+
+    .btn {
+        margin-top: 2%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .logo {
+
+    }
+
+    .form-control {
+        margin-right: auto;
+        margin-left: auto;
+
+    }
+
+    .info {
+        margin-bottom: 5%;
+        font-size: 12pt;
+        display: inline-block;
+        vertical-align: middle;
+        width: 50%;
+
+    }
+
+    .label-success {
+        font-size: 12pt;
+        line-height: 150%;
+    }
+
+    .ramceky {
+        margin-left: 5%;
+        margin-top: 5%;
+        margin-bottom: 10%;
+        display: inline-block;
+        vertical-align: middle;
+        width: 18%;
+        height: 25%;
+
+    }
+
+    .logoUni {
+        margin-left: 5%;
+        margin-top: 5%;
+        display: inline-block;
+        vertical-align: middle;
+        width: 18%;
+        height: 25%;
+    }
+
+    .infoUni {
+        margin-bottom: 4%;
+        font-size: 12pt;
+        display: inline-block;
+        vertical-align: middle;
+        vertical-align: middle;
+        width: 75%;
+        height: 25%;
+
+    }
+
+    .fakulty {
+        margin-top: 5%;
+        margin-left: 5%;
+        width: 50%;
+
+    }
+
+    .logoFak {
+        margin-left: 5%;
+        margin-top: 5%;
+        display: inline-block;
+        vertical-align: middle;
+        width: 18%;
+        height: 25%;
+    }
+
+    .infoFak {
+        margin-bottom: 4%;
+        font-size: 12pt;
+        display: inline-block;
+        vertical-align: middle;
+        vertical-align: middle;
+        width: 75%;
+        height: 25%;
+    }
+
+    .pracoviska {
+        margin-top: 5%;
+        margin-left: 5%;
+        width: 50%;
+    }
+
+    .gpsFakult {
+        margin-right: 5%;
+        margin-top: 8%;
+        display: inline-block;
+        vertical-align: middle;
+        float: right;
+
+    }
+
+    .infoPrac {
+        margin-bottom: 24%;
+        font-size: 12pt;
+        display: inline-block;
+        vertical-align: middle;
+        width: 50%
+    }
+</style>
+
+<body>
+
+<div class="lavaCast" style="float:right; width:20%; ">
+
+
+    <div class="tabulkyTop">
+        <h3>TOP UniTel</h3>
+
+        <div class="list-group" id="topHladane">
+            <a href="#" class="list-group-item">First item</a>
+        </div>
+    </div>
+
+    <div class="tabulkyHistory">
+        <h3>History UniTel</h3>
+
+        <div class="list-group" id="poslednaHistoria">
+            <a href="#" class="list-group-item">First item</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="lavaCast" style="float:left; width:80%;  border-right: 5px solid grey ">
+
+    <div class="form-group">
+        <div class="logo" id="searchFormGroup">
+            <img src="Drawing.png" alt="logo" width="170" height="150">
+            <input type="text" class="form-control" id="hladanePriezviskoInputText" placeholder="Zadajte priezvisko"
+                   list="priezviska" style="margin-top:20px">
+            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            <span id="inputError2Status" class="sr-only">(error)</span>
+            <datalist id="priezviska">
+            </datalist>
+            <button type="button" class="btn btn-default" id="hladatButton">Hladaj osobu</button>
+        </div>
+
+    </div>
+    <div class="row clearfix">
+        <div class="tableContainer" style="display:none" id="tableContainer">
+            <table class="table table-bordered table-striped table-hover table-responsive" id="zoznamTable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Meno</th>
+                    <th>Pracovisko</th>
+                    <th>Email</th>
+                    <th>Telefón</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>cislo</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="profil" style="display:none" id="kontaktDetail">
+        <div class="ramceky">
+            <img src="ramcek.png">Fotka kontaktu</img>
+            <img src="ramcek.png">GPS jeho pracoviska</img>
+        </div>
+        <div class="info">
+            <p id="idID"><span class="label label-success">ID</span>1.</p>
+            <p id="idUniverzita"><span class="label label-success">Univerzita</span>1</p>
+            <p id="idFakulta"><span class="label label-success">Fakulta</span>Prirodovedecka</p>
+            <p id="idPracovisko"><span class="label label-success">Pracovisko</span>UINF</p>
+            <p id="idMeno"><span class="label label-success">Meno</span>Matus</p>
+            <p id="idPriezvisko"><span class="label label-success">Priezvisko</span>Stedl</p>
+            <p id="idEmail"><span class="label label-success">E-mail</span>matuss.moje@gmail.com</p>
+            <p id="idTelefon"><span class="label label-success">Telefon</span>0915123456</p>
+            <p id="idOsobna"><span class="label label-success">Osobná reprezentácia</span></p>
+        </div>
+    </div>
+
+
+    <div class="uniInfo" style="display:none" id="univerzitaInfo">
+        <div class="logoUni">
+            <img src="ramcek.png">Logo Univerzity</img>
+        </div>
+        <div class="infoUni">
+            <p> INFO O UNIVERZITEINFO O UNIVERZITEINFO O UNIVERZITEINFO O UNIVERZITEINFO O UNIVERZITEINFO O
+                UNIVERZITEINFO O
+                UNIVERZITEINFO O UNIVERZITEINFO O UNIVERZITEINFO O UNIVERZITEINFO O UNIVERZITEINFO O UNIVERZITEINFO O
+                UNIVERZITEINFO O UNIVERZITEINFO O
+                UNIVERZITEINFO O UNIVERZITEINFO O UNIVERZITEINFO O UNIVERZITE
+            </p>
+        </div>
+        <div class="gpsFakult">
+            <img src="ramcek.png">GPS Fakulty</img>
+        </div>
+        <div class="fakulty">
+            <p style="font-size: 15pt">Zoznam fakult:</p>
+
+            <div class="list-group" id="zoznamFakult">
+                <a href="#" class="list-group-item">First item</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="FakuInfo" style="display:none" id="fakultaInfo">
+        <div class="logoFak">
+            <img src="ramcek.png">Logo Fakulty</img>
+        </div>
+        <div class="infoFak">
+            <p> Info o fakulte Info o fakulte Info o fakulte Info o fakulte Info o fakulte Info o fakulte Info o fakulte
+                Info o fakulte
+                Info o fakulte Info o fakulte Info o fakulte Info o fakulte Info o fakulte Info o fakulte Info o fakulte
+                Info o fakulte Info o fakulte
+                Info o fakulte Info o fakulte Info o fakulte Info o fakulte Info o fakulte Info o fakulte
+            </p>
+        </div>
+        <div class="gpsFakult">
+            <img src="ramcek.png">GPS Pracoviska</img>
+        </div>
+        <div class="pracoviska">
+            <p style="font-size: 15pt">Zoznam pracovisk</p>
+
+            <div class="list-group" id="zoznamPracovisk">
+                <a href="#" class="list-group-item">First item</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="profilPracoviska" style="display:none" id="pracoviskoInfo">
+        <div class="ramceky">
+            <img src="ramcek.png">Obrazok pracoviska</img>
+            <img src="ramcek.png">GPS</img>
+        </div>
+        <div class="infoPrac">
+            <p id="pracoviskoID"><span class="label label-success">ID</span>1.</p>
+            <p id="pracoviskoUniverzita"><span class="label label-success">Univerzita</span>1</p>
+            <p id="pracoviskoFakulta"><span class="label label-success">Fakulta</span>Prirodovedecka</p>
+            <p id="pracoviskoNazov"><span class="label label-success">Nazov</span>UINF</p>
+            <p id="pracoviskoAdresa"><span class="label label-success">Adresa</span>niekde</p>
+            <p id="pracoviskoGPS"><span class="label label-success">GPS</span>null</p>
+        </div>
+    </div>
+    <p id="cookie" style="display:none"><%= user.username %></p>
+</div>
+
+
+</body>
+</html>

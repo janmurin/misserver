@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="js/merchant.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
+	
+	<body>
+		<div class="left">
+			<% for(var i = 0; i < products.length; i++) {%>
+				<div class="product-container border">
+					<div>
+						<input value="<%=products[i].name%>" name="product_<%=i%>_name" type="text"/>
+					</div>
+					<div>
+						<span>Price:</span>
+						<input value="<%=products[i].price%>" name="product_<%=i%>_price" type="text"/>
+					</div>
+					<div>
+						<span>inventory:</span>
+						<input value="<%=products[i].inventory%>" name="product_<%=i%>_inventory" type="text"/>
+					</div>
+					<div class="product-buttons">
+						<button class="js_update-product">Update</button>
+						<button class="js_remove-product">Remove</button>
+					</div>
+				</div>
+			<% } %>
+			<div class="product-container border new-product-container">
+					<div>
+						<input value="" name="product_new_price" type="text"/>
+					</div>
+					<div>
+						<span>Price:</span>
+						<input value="" name="product_new_price" type="text"/>
+					</div>
+					<div>
+						<span>inventory:</span>
+						<input value="" name="product_new_inventory" type="text"/>
+					</div>
+					<div class="product-buttons">
+						<button class="js_add-product">Add</button>
+					</div>
+				</div>
+			
+		</div>
+		<div class="orders-container left border">
+			<h2>Orders</h2>
+			<% for(var i = 0; i < orders.length; i++) {%>
+				<div class="order">
+					<div>
+						<span>Total price</span>
+						<span><%=orders[i].getTotalPrice()%></span>
+					</div>
+				</div>
+			<%}%>
+		</div>
+</html>
